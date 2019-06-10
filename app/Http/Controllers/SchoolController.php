@@ -12,6 +12,11 @@ class SchoolController extends Controller
 {
     protected $schoolRepo;
 
+//     public function __construct(\Illuminate\Http\Request $request)
+//    {
+//        $this->request = $request;
+//    }
+
     public function __construct(SchoolRepository $schoolRepo)
     {
         $this->schoolRepo = $schoolRepo;
@@ -24,15 +29,14 @@ class SchoolController extends Controller
 
     public function schools(){
         $school = $this->schoolRepo->getschools();
-        // return $school;
         return $school;
     }
 
     public function save(Request $request){
-        $data = Request::all();
-        $newschool = $this->postRepo->save_school($data);
+        $data = $request->all();
+        $newschool = $this->schoolRepo->save_school($data);
         if ($newschool) {
-            return redirect()->route('btschool');
+            return View::make('btschool');
         }
     }
 }

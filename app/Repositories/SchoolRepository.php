@@ -11,7 +11,7 @@ use App\Entities\School;
 use App\Entities\College;
 use App\Entities\Department;
 use App\Entities\Education_System;
-
+use Illuminate\Support\Facades\Redirect;
 class SchoolRepository
 {
     // public function getschools()
@@ -37,40 +37,58 @@ class SchoolRepository
         $collegeName = $data['collegeName'];
         $departmentName = $data['departmentName'];
         $educationSystemName = $data['educationSystemName'];
-        
+
         //判斷有沒有school
-        $isSchool = DB::select('select * from school where schoolName = ?', $schoolName);
+        // $isSchool = DB::select('select * from school where schoolName = ?', $schoolName);
+        $isSchool = DB::table('school')->where('schoolName',$schoolName)->get();
         if ($isSchool == ''){
-            DB::insert('insert into school (schoolName) values (?)', $schoolName);}
-        $schoolid = DB::select('select schoolId from school where schoolName = ?',$schoolName);
+            // DB::insert('insert into school (schoolName) values (?)', $schoolName);
+            DB::table('school')->insert(
+                array('schoolName' => $schoolName)
+            );
+        }
+        // $schoolid = DB::select('select schoolId from school where schoolName = ?',$schoolName);
+        $schoolid = DB::table('school')->select('schoolId')->where('schoolName',$schoolName);
 
         //判斷有沒有college
-        $isCollege = DB::select('select * from college where collegeName = ? and schoolId = ?',[$collegeName,$schoolid]);
+        // $isCollege = DB::select('select * from college where collegeName = ? and schoolId = ?',[$collegeName,$schoolid]);
+        $isCollege = DB::table('college')->where('collegeName',$collegeName)->where('schoolId',$schoolid);
         if ($isCollege == ''){
-            DB::insert('insert into college (collegeName,schoolId) values (?,?)',[$collegeName,$schoolid]);}
-        $collegeid = DB::select('select collegeId from college where collegeName = ? and schoolId = ?',[$collegeName,$schoolid]);
+            // DB::insert('insert into college (collegeName,schoolId) values (?,?)',[$collegeName,$schoolid]);
+            DB::table('college')->insert(
+                array('collegeName' => $collegeName,'schoolId' => $schoolid)
+            );
+        }
+        // $collegeid = DB::select('select collegeId from college where collegeName = ? and schoolId = ?',[$collegeName,$schoolid]);
+        $collegeid = DB::table('college')->select('collegeId')->where('collegeName',$collegeName)->where('schoolId',$schoolid);
 
         //判斷有沒有education_system
-        $isEducation = DB::select('select * from education_system where educationSystemName = ?',$educationSystemName);
+        // $isEducation = DB::select('select * from education_system where educationSystemName = ?',$educationSystemName);
+        $isEducation = DB::table('education_system')->where('educationSystemName',$educationSystemName);
         if ($isEducation == ''){
-            DB::insert('insert into education_system (educationSystemName) values (?)',$educationSystemName);
+            // DB::insert('insert into education_system (educationSystemName) values (?)',$educationSystemName);
+            DB::table('education_system')->insert(
+                array('educationSystemId' => $educationSystemName)
+            );
         }
-        $educationid = DB::select('select educationSystemId from education_system where educationSystemName = ?',$educationSystemName);
+        // $educationid = DB::select('select educationSystemId from education_system where educationSystemName = ?',$educationSystemName);
+        $educationid = DB::table('education_system')->select('educationSystemId')->where('educationSystemName',$educationSystemName);
 
         //判斷department是否已存在
-        $isDepartment = DB::select('select * from department where departmenteName = ? and collegelId = ? and schoolId =? and educationSystemId =?',[$departmenteName,$collegeid,$schoolid,$educationid]);
+        // $isDepartment = DB::select('select * from department where departmenteName = ? and collegelId = ? and schoolId =? and educationSystemId =?',[$departmenteName,$collegeid,$schoolid,$educationid]);
+        $isDepartment = DB::table('department')->where('departmenteName',$departmentName)->where('collegelId',$collegeid)->where('schoolId',$schoolid)->where('educationSystemId',$educationid);
         if ($isDepartment == ''){
-            DB::insert('insert into department (departmentName,schoolId,collegeId,educationSystemId) values (?,?,?,?)',[$departmentName,$schoolid,$collegeid,$educationid]);
+            // DB::insert('insert into department (departmentName,schoolId,collegeId,educationSystemId) values (?,?,?,?)',[$departmentName,$schoolid,$collegeid,$educationid]);
+            DB::table('department')->insert(
+                array('departmentName' => $departmentName,'schoolId' => $schoolid,'collegeId' => $collegeid,'educationSystemId' => $educationid)
+            );
+            return Redirect::back()->withErrors(['成功!!', '該筆資料已存在']);;
         }else{
             return Redirect::back()->withErrors(['警告!!', '該筆資料已存在']);
         }
 
-        $result = DB::table('department')
-                  ->join('school','department.schoolId','=','school.schoolId','left outer')
-                  ->join('college','department.collegeId','=','college.collegeId','left outer')
-                  ->join('education_system','department.educationSystemId','=','education_system.educationSystemId','left outer')
-                  ->get();
-        return $result;
+        
+
     }
 
 

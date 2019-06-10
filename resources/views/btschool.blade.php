@@ -2,6 +2,9 @@
 @section('title','後台管理 學校')
 
 @section('content')
+    @if($errors->any())
+        <h4>{{$errors->first()}}</h4>
+    @endif
     <table id="dg" title="學校" class="easyui-datagrid" style="width:1200px;height:500px" 
         url="school" toolbar="#toolbar" pagination="true" method="get"
         rownumbers="true" fitColumns="true" singleSelect="true">
@@ -21,7 +24,7 @@
     </div>
     
     <div id="dlg" class="easyui-dialog" style="width:400px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
-        <form  method="post" acion="{{ action('SchoolController@save')}}" style="margin:0;padding:20px 50px">
+        <form method="post" acion="{{ action('SchoolController@save')}}" style="margin:0;padding:20px 50px">
           
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <h3>學校資訊</h3>
@@ -38,16 +41,16 @@
                 <input name="educationSystemName" class="easyui-textbox" required="true" label="學制:" style="width:100%">
             </div>
             <div id="dlg-buttons" class="row">
-                <div class="col-md-12 mb-1">
-                    <button type="submit" class="btn btn-primary btn-block">
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-primary btn-block" onclick="saveUser()">
                     修改
                     </button>
                 </div>
-                <!-- <div class="col-md-6">
-                <a href="{{ url('/btschool') }}" class="btn btn-danger btn-block">
-                返回
-                </a>
-                </div> -->
+                <div class="col-md-6">
+                    <a href="{{ url('/btschool') }}" class="btn btn-danger btn-block">
+                    返回
+                    </a>
+                </div>
             </div>
         </form>
     </div>
@@ -58,14 +61,14 @@
     <script type="text/javascript">
         var url;
         function newUser(){
-            $('#dlg').dialog('open').dialog('center').dialog('setTitle','New User');
+            $('#dlg').dialog('open').dialog('center').dialog('setTitle','New School');
             $('#fm').form('clear');
             url = 'saveschool';
         }
         function editUser(){
             var row = $('#dg').datagrid('getSelected');
             if (row){
-                $('#dlg').dialog('open').dialog('center').dialog('setTitle','Edit User');
+                $('#dlg').dialog('open').dialog('center').dialog('setTitle','Edit School');
                 $('#fm').form('load',row);
                 url = 'update_user.php?id='+row.id;
             }
@@ -110,7 +113,5 @@
             }
         }
     </script>
-    @if($errors->any())
-        <h4>{{$errors->first()}}</h4>
-    @endif
+    
 @stop
