@@ -9,7 +9,9 @@
         url="school" toolbar="#toolbar" pagination="true" method="get"
         rownumbers="true" fitColumns="true" singleSelect="true">
         <thead>
-            <tr>
+            <tr>   
+                <th field="isPrivate" width="30">公立/私立</th>
+                <th field="schoolCode" width="30">學校代碼</th>
                 <th field="schoolName" width="70">學校</th>
                 <th field="collegeName" width="70">學院</th>
                 <th field="departmentName" width="70">系所</th>
@@ -29,10 +31,10 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <h3>學校資訊</h3>
             <div style="margin-bottom:10px">
-                <input name="schoolName" class="easyui-textbox" required="true" label="公立/私立:" style="width:100%" value="公立">
+                <input name="isPrivate" class="easyui-textbox" required="true" label="公立/私立:" style="width:100%" value="公立">
             </div>
             <div style="margin-bottom:10px">
-                <input name="schoolName" class="easyui-textbox" required="true" label="學校代碼:" style="width:100%" value="0023">
+                <input name="schoolCode" class="easyui-textbox" required="true" label="學校代碼:" style="width:100%" value="0023">
             </div>
             <div style="margin-bottom:10px">
                 <input name="schoolName" class="easyui-textbox" required="true" label="學校:" style="width:100%" value="國立雲林科技大學">

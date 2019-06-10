@@ -34,61 +34,67 @@ class SchoolRepository
     public function save_school($data)
     {   
         $schoolName = $data['schoolName'];
+        $Private = $data['isPrivate'];
+        if ($Private=='公立'){
+            $isPrivate='0';
+        }elseif($isPrivate=='私立'){
+            $Private='1';
+        }
+        $schoolCode = $data['schoolCode'];
         $collegeName = $data['collegeName'];
         $departmentName = $data['departmentName'];
         $educationSystemName = $data['educationSystemName'];
 
         //判斷有沒有school
-        // $isSchool = DB::select('select * from school where schoolName = ?', $schoolName);
+        
         $isSchool = DB::table('school')->where('schoolName',$schoolName)->get();
-        if (!$isSchool){
-            // DB::insert('insert into school (schoolName) values (?)', $schoolName);
+        if ($isSchool == '[]'){
             DB::table('school')->insert(
-                array('schoolName' => $schoolName)
-            )->save();
+                ['schoolName' => $schoolName,'isPrivate'=>$isPrivate,'schoolCode'=>$schoolCode]
+            );
+            $schoolid = DB::table('school')->where('schoolName',$schoolName)->pluck('schoolId');
+        }else{
+            $schoolid = DB::table('school')->where('schoolName',$schoolName)->pluck('schoolId');
         }
-        // $schoolid = DB::select('select schoolId from school where schoolName = ?',$schoolName);
-        $schoolid = DB::table('school')->where('schoolName',$schoolName)->pluck('schoolId');
-        // $schoolid = var_dump($schoolid);
+        
 
         //判斷有沒有college
-        // $isCollege = DB::select('select * from college where collegeName = ? and schoolId = ?',[$collegeName,$schoolid]);
+        
         $isCollege = DB::table('college')->where('collegeName',$collegeName)->where('schoolId',$schoolid)->get();
-        if (!$isCollege){
-            // DB::insert('insert into college (collegeName,schoolId) values (?,?)',[$collegeName,$schoolid]);
+        if ($isCollege->isEmpty()){ 
             DB::table('college')->insert(
-                array('collegeName' => $collegeName,'schoolId' => $schoolid)
-            )->save();
+                ['collegeName' => $collegeName,'schoolId' => substr($schoolid,1,1)]
+            );
+            $collegeid = DB::table('college')->where('schoolId',$schoolid)->pluck('collegeId');
+        }else{
+            $collegeid = DB::table('college')->where('schoolId',$schoolid)->where('collegeName',$collegeName)->pluck('collegeId');
         }
-        // $collegeid = DB::select('select collegeId from college where collegeName = ? and schoolId = ?',[$collegeName,$schoolid]);
-        $collegeid = DB::table('college')->where('collegeName',$collegeName)->where('schoolId',$schoolid)->pluck('collegeId');;
-        // $collegeid = var_dump($collegeid);
-
+        
+        
 
         //判斷有沒有education_system
-        // $isEducation = DB::select('select * from education_system where educationSystemName = ?',$educationSystemName);
+        
         $isEducation = DB::table('education_system')->where('educationSystemName',$educationSystemName)->get();
-        if (!$isEducation){
-            // DB::insert('insert into education_system (educationSystemName) values (?)',$educationSystemName);
+        if ($isEducation == '[]'){
             DB::table('education_system')->insert(
-                array('educationSystemId' => $educationSystemName)
-            )->save();
+                ['educationSystemName' => $educationSystemName]
+            );
+            $educationid = DB::table('education_system')->where('educationSystemName',$educationSystemName)->pluck('educationSystemId');
+        }else{
+            $educationid = DB::table('education_system')->where('educationSystemName',$educationSystemName)->pluck('educationSystemId');
         }
-        // $educationid = DB::select('select educationSystemId from education_system where educationSystemName = ?',$educationSystemName);
-        $educationid = DB::table('education_system')->where('educationSystemName',$educationSystemName)->pluck('educationSystemId');;
-        // $educationid = var_dump($educationid);
+        
 
         //判斷department是否已存在
-        // $isDepartment = DB::select('select * from department where departmenteName = ? and collegelId = ? and schoolId =? and educationSystemId =?',[$departmenteName,$collegeid,$schoolid,$educationid]);
-        $isDepartment = DB::table('department')->where('departmenteName',$departmentName)->where('collegelId',$collegeid)->where('schoolId',$schoolid)->where('educationSystemId',$educationid)->get();
-        if (!$isDepartment){
-            // DB::insert('insert into department (departmentName,schoolId,collegeId,educationSystemId) values (?,?,?,?)',[$departmentName,$schoolid,$collegeid,$educationid]);
+        $isDepartment = DB::table('department')->where('departmentName',$departmentName)->where('collegeId',substr($collegeid,1,1))
+                        ->where('schoolId',$schoolid)->where('educationSystemId',$educationid)->get();
+        if ($isDepartment == '[]'){
             DB::table('department')->insert(
-                array('departmentName' => $departmentName,'schoolId' => $schoolid,'collegeId' => $collegeid,'educationSystemId' => $educationid)
-            )->save();
-            return Redirect::back()->withErrors(['成功!!', '該筆資料已存在']);;
-        }else{
+                ['departmentName' => $departmentName,'schoolId' => substr($schoolid,1,1),'collegeId' => substr($collegeid,1,1),'educationSystemId' => substr($educationid,1,1)]
+            );
             return Redirect::back()->withErrors(['警告!!', '該筆資料已存在']);
+        }else{
+            return Redirect::back()->withErrors(['成功!!', '成功新增']);;
         }
 
         
