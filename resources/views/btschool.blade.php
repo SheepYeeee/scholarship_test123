@@ -13,7 +13,7 @@
         <thead>
             <tr>
                 
-                <th id="qwer" field="isPrivate" width="30">公立:0/私立:1</th>
+
                 <th field="schoolCode" width="30">學校代碼</th>
                 <th field="schoolName" width="70">學校</th>
                 <th field="collegeName" width="70">學院</th>
@@ -33,9 +33,7 @@
           
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <h3>學校資訊</h3>
-            <div style="margin-bottom:10px">
-                <input name="isPrivate" class="easyui-textbox" required="true" label="公立/私立:" style="width:100%">
-            </div>
+            
             <div style="margin-bottom:10px">
                 <input name="schoolCode" class="easyui-textbox" required="true" label="學校代碼:" style="width:100%" >
             </div>
@@ -52,16 +50,16 @@
                 <input name="educationSystemName" class="easyui-textbox" required="true" label="學制:" style="width:100%" >
             </div>
             <div id="dlg-buttons" class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <button type="submit" class="btn btn-primary btn-block" onclick="saveUser()">
                     修改
                     </button>
                 </div>
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                     <a href="{{ url('/btschool') }}" class="btn btn-danger btn-block">
                     返回
                     </a>
-                </div>
+                </div> -->
             </div>
         </form>
     </div>
