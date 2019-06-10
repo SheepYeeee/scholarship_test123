@@ -48,7 +48,7 @@ class SchoolRepository
             )->save();
         }
         // $schoolid = DB::select('select schoolId from school where schoolName = ?',$schoolName);
-        $schoolid = DB::table('school')->select('schoolId')->where('schoolName',$schoolName)->get();
+        $schoolid = DB::table('school')->where('schoolName',$schoolName)->pluck('schoolId');
         // $schoolid = var_dump($schoolid);
 
         //判斷有沒有college
@@ -61,7 +61,7 @@ class SchoolRepository
             )->save();
         }
         // $collegeid = DB::select('select collegeId from college where collegeName = ? and schoolId = ?',[$collegeName,$schoolid]);
-        $collegeid = DB::table('college')->select('collegeId')->where('collegeName',$collegeName)->where('schoolId',$schoolid)->get();
+        $collegeid = DB::table('college')->where('collegeName',$collegeName)->where('schoolId',$schoolid)->pluck('collegeId');;
         // $collegeid = var_dump($collegeid);
 
 
@@ -75,7 +75,7 @@ class SchoolRepository
             )->save();
         }
         // $educationid = DB::select('select educationSystemId from education_system where educationSystemName = ?',$educationSystemName);
-        $educationid = DB::table('education_system')->select('educationSystemId')->where('educationSystemName',$educationSystemName)->get();
+        $educationid = DB::table('education_system')->where('educationSystemName',$educationSystemName)->pluck('educationSystemId');;
         // $educationid = var_dump($educationid);
 
         //判斷department是否已存在
