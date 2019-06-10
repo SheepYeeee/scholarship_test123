@@ -35,8 +35,7 @@ class SchoolController extends Controller
     public function save(Request $request){
         $data = $request->all();
         $newschool = $this->schoolRepo->save_school($data);
-        if ($newschool) {
-            return View::make('btschool');
-        }
+            return $newschool;
+
     }
 }

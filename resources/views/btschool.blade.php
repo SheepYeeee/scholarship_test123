@@ -29,7 +29,7 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <h3>學校資訊</h3>
             <div style="margin-bottom:10px">
-                <input name="schoolName" class="easyui-textbox" required="true" label="學校:" style="width:100%" value="國立臺中科技大學">
+                <input name="schoolName" class="easyui-textbox" required="true" label="學校:" style="width:100%" value="國立成功大學">
             </div>
             <div style="margin-bottom:10px">
                 <input name="collegeName" class="easyui-textbox" required="true" label="學院:" style="width:100%" value="語文學院">
