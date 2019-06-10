@@ -63,9 +63,12 @@
             </div>
         </form>
     </div>
-    <div id="dlg-buttons">
+    <div id="dlg-buttons" >
         <!-- <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveUser()" style="width:90px">Save</a> -->
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close');  $('#fm').form('clear'); document.getElementById('token').value='{{ csrf_token() }}'" style="width:90px">Cancel</a>
+        <center>
+        <button style="align: center;width:78%;" href="javascript:void(0)" type="submit" class="btn btn-danger btn-block" onclick="javascript:$('#dlg').dialog('close');  $('#fm').form('clear'); document.getElementById('token').value='{{ csrf_token() }}'">取消</button>
+        </center>
+        <!-- <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close');  $('#fm').form('clear'); document.getElementById('token').value='{{ csrf_token() }}'" style="width:90px">Cancel</a> -->
     </div>
     <script type="text/javascript">
         
