@@ -29,16 +29,22 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <h3>學校資訊</h3>
             <div style="margin-bottom:10px">
-                <input name="schoolName" class="easyui-textbox" required="true" label="學校:" style="width:100%" value="國立臺中科技大學">
+                <input name="schoolName" class="easyui-textbox" required="true" label="公立/私立:" style="width:100%" value="公立">
             </div>
             <div style="margin-bottom:10px">
-                <input name="collegeName" class="easyui-textbox" required="true" label="學院:" style="width:100%" value="語文學院">
+                <input name="schoolName" class="easyui-textbox" required="true" label="學校代碼:" style="width:100%" value="0023">
             </div>
             <div style="margin-bottom:10px">
-                <input name="departmentName" class="easyui-textbox" required="true" label="系所:" style="width:100%" value="應用中文系">
+                <input name="schoolName" class="easyui-textbox" required="true" label="學校:" style="width:100%" value="國立雲林科技大學">
             </div>
             <div style="margin-bottom:10px">
-                <input name="educationSystemName" class="easyui-textbox" required="true" label="學制:" style="width:100%" value="四技">
+                <input name="collegeName" class="easyui-textbox" required="true" label="學院:" style="width:100%" value="管理學院">
+            </div>
+            <div style="margin-bottom:10px">
+                <input name="departmentName" class="easyui-textbox" required="true" label="系所:" style="width:100%" value="企業管理系">
+            </div>
+            <div style="margin-bottom:10px">
+                <input name="educationSystemName" class="easyui-textbox" required="true" label="學制:" style="width:100%" value="日四技">
             </div>
             <div id="dlg-buttons" class="row">
                 <div class="col-md-6">
