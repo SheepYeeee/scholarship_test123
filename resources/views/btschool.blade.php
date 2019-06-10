@@ -41,12 +41,12 @@
                 <input name="educationSystemName" class="easyui-textbox" required="true" label="學制:" style="width:100%">
             </div>
             <div id="dlg-buttons" class="row">
-                <div class="col-md-6">
+                <div class="col-md">
                     <button type="submit" class="btn btn-primary btn-block" onclick="saveUser()">
                     修改
                     </button>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md">
                     <a href="{{ url('/btschool') }}" class="btn btn-danger btn-block">
                     返回
                     </a>
@@ -54,10 +54,10 @@
             </div>
         </form>
     </div>
-    <div id="dlg-buttons">
-        <!-- <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveUser()" style="width:90px">Save</a> -->
+    <!-- <div id="dlg-buttons">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveUser()" style="width:90px">Save</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">Cancel</a>
-    </div>
+    </div> -->
     <script type="text/javascript">
         var url;
         function newUser(){
