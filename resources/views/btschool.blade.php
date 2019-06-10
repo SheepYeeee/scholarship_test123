@@ -31,7 +31,8 @@
     <div id="dlg" class="easyui-dialog" style="width:400px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
         <form id="fm" method="post" acion="{{ action('SchoolController@save')}}" style="margin:0;padding:20px 50px">
           
-            <input id="token" type="hidden" name="_token" value="{{ csrf_token() }}">
+            <input id="token" type="hidden" name="_token" value="">
+            <input id="crud" type="hidden" name="crud">
             <h3>學校資訊</h3>
             
             <div style="margin-bottom:10px">
@@ -78,13 +79,17 @@
         function newUser(){
             $('#dlg').dialog('open').dialog('center').dialog('setTitle','New School');
             url = '{{ action('SchoolController@save')}}';
+             document.getElementById('crud').value='insert';
+
         }
         function editUser(){
             var row = $('#dg').datagrid('getSelected');
             if (row){
                 $('#dlg').dialog('open').dialog('center').dialog('setTitle','Edit School');
                 $('#fm').form('load',row);
-                url = 'update_user.php?id='+row.id;
+                url = '{{ action('SchoolController@save')}}';
+             document.getElementById('crud').value='edit';
+                
             }
         }
         function saveUser(){
