@@ -5,12 +5,15 @@
     @if($errors->any())
         <h4>{{$errors->first()}}</h4>
     @endif
+
+
     <table id="dg" title="學校" class="easyui-datagrid" style="width:1200px;height:500px" 
         url="school" toolbar="#toolbar" pagination="true" method="get"
         rownumbers="true" fitColumns="true" singleSelect="true">
         <thead>
             <tr>
-                <th field="isPrivate" width="30">公立/私立</th>
+                
+                <th id="qwer" field="isPrivate" width="30">公立:0/私立:1</th>
                 <th field="schoolCode" width="30">學校代碼</th>
                 <th field="schoolName" width="70">學校</th>
                 <th field="collegeName" width="70">學院</th>
@@ -26,27 +29,27 @@
     </div>
     
     <div id="dlg" class="easyui-dialog" style="width:400px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
-        <form method="post" acion="{{ action('SchoolController@save')}}" style="margin:0;padding:20px 50px">
+        <form id="fm" method="post" acion="{{ action('SchoolController@save')}}" style="margin:0;padding:20px 50px">
           
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <h3>學校資訊</h3>
             <div style="margin-bottom:10px">
-                <input name="isPrivate" class="easyui-textbox" required="true" label="公立/私立:" style="width:100%" value="公立">
+                <input name="isPrivate" class="easyui-textbox" required="true" label="公立/私立:" style="width:100%">
             </div>
             <div style="margin-bottom:10px">
-                <input name="schoolCode" class="easyui-textbox" required="true" label="學校代碼:" style="width:100%" value="0023">
+                <input name="schoolCode" class="easyui-textbox" required="true" label="學校代碼:" style="width:100%" >
             </div>
             <div style="margin-bottom:10px">
-                <input name="schoolName" class="easyui-textbox" required="true" label="學校:" style="width:100%" value="國立雲林科技大學">
+                <input name="schoolName" class="easyui-textbox" required="true" label="學校:" style="width:100%" >
             </div>
             <div style="margin-bottom:10px">
-                <input name="collegeName" class="easyui-textbox" required="true" label="學院:" style="width:100%" value="管理學院">
+                <input name="collegeName" class="easyui-textbox" required="true" label="學院:" style="width:100%" >
             </div>
             <div style="margin-bottom:10px">
-                <input name="departmentName" class="easyui-textbox" required="true" label="系所:" style="width:100%" value="企業管理系">
+                <input name="departmentName" class="easyui-textbox" required="true" label="系所:" style="width:100%">
             </div>
             <div style="margin-bottom:10px">
-                <input name="educationSystemName" class="easyui-textbox" required="true" label="學制:" style="width:100%" value="日四技">
+                <input name="educationSystemName" class="easyui-textbox" required="true" label="學制:" style="width:100%" >
             </div>
             <div id="dlg-buttons" class="row">
                 <div class="col-md-6">
@@ -67,11 +70,13 @@
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">Cancel</a>
     </div>
     <script type="text/javascript">
+        
+        
+
         var url;
         function newUser(){
             $('#dlg').dialog('open').dialog('center').dialog('setTitle','New School');
-            $('#fm').form('clear');
-            url = 'saveschool';
+            url = '{{ action('SchoolController@save')}}';
         }
         function editUser(){
             var row = $('#dg').datagrid('getSelected');
