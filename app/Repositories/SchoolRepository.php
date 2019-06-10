@@ -92,9 +92,9 @@ class SchoolRepository
             DB::table('department')->insert(
                 ['departmentName' => $departmentName,'schoolId' => substr($schoolid,1,1),'collegeId' => substr($collegeid,1,1),'educationSystemId' => substr($educationid,1,1)]
             );
-            return Redirect::back()->withErrors(['警告!!', '該筆資料已存在']);
+            return Redirect::back()->withErrors(['新增成功', '該筆資料已存在']);
         }else{
-            return Redirect::back()->withErrors(['成功!!', '成功新增']);;
+            return Redirect::back()->withErrors(['新增失敗', '成功新增']);;
         }
 
         
