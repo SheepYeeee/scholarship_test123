@@ -39,7 +39,7 @@ class SchoolController extends Controller
         if ($which=='insert'){
             $newschool = $this->schoolRepo->save_school($data);
             return $newschool;
-        }elseif($which=='update'){
+        }elseif($which=='edit'){
             $newschool = $this->schoolRepo->update_school($data);
             return $newschool;
         }
