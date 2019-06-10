@@ -124,7 +124,7 @@ class SchoolRepository
             );
             $schoolid = DB::table('school')->where('schoolName',$schoolName)->pluck('schoolId');
         }else{
-            DB::table('school')->update(
+            DB::table('school')->where('schoolName',$schoolName)->update(
                 ['schoolName' => $schoolName,'isPrivate'=>$isPrivate,'schoolCode'=>$schoolCode]
             );
             $schoolid = DB::table('school')->where('schoolName',$schoolName)->pluck('schoolId');
@@ -138,7 +138,7 @@ class SchoolRepository
             );
             $collegeid = DB::table('college')->where('schoolId',$schoolid)->pluck('collegeId');
         }else{
-            DB::table('college')->update(
+            DB::table('college')->where('collegeName',$collegeName)->where('schoolId',$schoolid)->update(
                 ['collegeName' => $collegeName,'schoolId' => substr($schoolid,1,1)]
             );
             $collegeid = DB::table('college')->where('schoolId',$schoolid)->where('collegeName',$collegeName)->pluck('collegeId');
