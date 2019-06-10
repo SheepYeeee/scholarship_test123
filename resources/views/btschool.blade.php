@@ -9,7 +9,7 @@
         url="school" toolbar="#toolbar" pagination="true" method="get"
         rownumbers="true" fitColumns="true" singleSelect="true">
         <thead>
-            <tr>   
+            <tr>
                 <th field="isPrivate" width="30">公立/私立</th>
                 <th field="schoolCode" width="30">學校代碼</th>
                 <th field="schoolName" width="70">學校</th>
