@@ -21,9 +21,9 @@
     </div>
     
     <div id="dlg" class="easyui-dialog" style="width:400px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
-        <form id="fm" method="post" acion="{{ action('SchoolController@save')}}" style="margin:0;padding:20px 50px">
-            {{ csrf_field() }}
-            
+        <form  method="post" acion="{{ action('SchoolController@save')}}" style="margin:0;padding:20px 50px">
+          
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <h3>學校資訊</h3>
             <div style="margin-bottom:10px">
                 <input name="schoolName" class="easyui-textbox" required="true" label="學校:" style="width:100%">
