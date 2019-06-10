@@ -29,24 +29,24 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <h3>學校資訊</h3>
             <div style="margin-bottom:10px">
-                <input name="schoolName" class="easyui-textbox" required="true" label="學校:" style="width:100%">
+                <input name="schoolName" class="easyui-textbox" required="true" label="學校:" style="width:100%" value="國立臺中科技大學">
             </div>
             <div style="margin-bottom:10px">
-                <input name="collegeName" class="easyui-textbox" required="true" label="學院:" style="width:100%">
+                <input name="collegeName" class="easyui-textbox" required="true" label="學院:" style="width:100%" value="語文學院">
             </div>
             <div style="margin-bottom:10px">
-                <input name="departmentName" class="easyui-textbox" required="true" label="系所:" style="width:100%">
+                <input name="departmentName" class="easyui-textbox" required="true" label="系所:" style="width:100%" value="應用中文系">
             </div>
             <div style="margin-bottom:10px">
-                <input name="educationSystemName" class="easyui-textbox" required="true" label="學制:" style="width:100%">
+                <input name="educationSystemName" class="easyui-textbox" required="true" label="學制:" style="width:100%" value="四技">
             </div>
             <div id="dlg-buttons" class="row">
-                <div class="col-md">
+                <div class="col-md-6">
                     <button type="submit" class="btn btn-primary btn-block" onclick="saveUser()">
                     修改
                     </button>
                 </div>
-                <div class="col-md">
+                <div class="col-md-6">
                     <a href="{{ url('/btschool') }}" class="btn btn-danger btn-block">
                     返回
                     </a>
@@ -54,10 +54,10 @@
             </div>
         </form>
     </div>
-    <!-- <div id="dlg-buttons">
-        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveUser()" style="width:90px">Save</a>
+    <div id="dlg-buttons">
+        <!-- <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveUser()" style="width:90px">Save</a> -->
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">Cancel</a>
-    </div> -->
+    </div>
     <script type="text/javascript">
         var url;
         function newUser(){
