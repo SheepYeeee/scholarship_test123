@@ -27,4 +27,12 @@ class SchoolController extends Controller
         // return $school;
         return $school;
     }
+
+    public function save(Request $request){
+        $data = Request::all();
+        $newschool = $this->postRepo->save_school($data);
+        if ($newschool) {
+            return redirect()->route('btschool');
+        }
+    }
 }

@@ -21,7 +21,9 @@
     </div>
     
     <div id="dlg" class="easyui-dialog" style="width:400px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
-        <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
+        <form id="fm" method="post" acion="{{ action('SchoolController@save')}}" style="margin:0;padding:20px 50px">
+            {{ csrf_field() }}
+            
             <h3>學校資訊</h3>
             <div style="margin-bottom:10px">
                 <input name="schoolName" class="easyui-textbox" required="true" label="學校:" style="width:100%">
@@ -35,10 +37,22 @@
             <div style="margin-bottom:10px">
                 <input name="educationSystemName" class="easyui-textbox" required="true" label="學制:" style="width:100%">
             </div>
+            <div id="dlg-buttons" class="row">
+                <div class="col-md-12 mb-1">
+                    <button type="submit" class="btn btn-primary btn-block">
+                    修改
+                    </button>
+                </div>
+                <!-- <div class="col-md-6">
+                <a href="{{ url('/btschool') }}" class="btn btn-danger btn-block">
+                返回
+                </a>
+                </div> -->
+            </div>
         </form>
     </div>
     <div id="dlg-buttons">
-        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveUser()" style="width:90px">Save</a>
+        <!-- <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveUser()" style="width:90px">Save</a> -->
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">Cancel</a>
     </div>
     <script type="text/javascript">
@@ -46,7 +60,7 @@
         function newUser(){
             $('#dlg').dialog('open').dialog('center').dialog('setTitle','New User');
             $('#fm').form('clear');
-            url = 'save_user.php';
+            url = 'saveschool';
         }
         function editUser(){
             var row = $('#dg').datagrid('getSelected');
@@ -96,4 +110,7 @@
             }
         }
     </script>
+    @if($errors->any())
+        <h4>{{$errors->first()}}</h4>
+    @endif
 @stop
