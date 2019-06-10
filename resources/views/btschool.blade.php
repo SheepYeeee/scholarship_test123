@@ -34,7 +34,9 @@
             <input id="token" type="hidden" name="_token" value="{{ csrf_token() }}">
             <input id="crud" type="hidden" name="crud">
             <h3>學校資訊</h3>
-            
+            <div style="margin-bottom:10px">
+                <input name="isPrivate" class="easyui-textbox" required="true" label="公立/私立:" style="width:100%" >
+            </div>
             <div style="margin-bottom:10px">
                 <input name="schoolCode" class="easyui-textbox" required="true" label="學校代碼:" style="width:100%" >
             </div>
