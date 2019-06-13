@@ -35,15 +35,13 @@ class SchoolController extends Controller
     public function save(Request $request){
         $data = $request->all();
         $which = $data['crud'];
-        
+
         if ($which=='insert'){
             $newschool = $this->schoolRepo->save_school($data);
-            return $newschool;
         }elseif($which=='edit'){
             $newschool = $this->schoolRepo->update_school($data);
-            return $newschool;
         }
-        
+        return $newschool;
 
     }
 }

@@ -12,8 +12,7 @@
         rownumbers="true" fitColumns="true" singleSelect="true">
         <thead>
             <tr>
-                
-
+                <th field="schoolId" width="30">學校編號</th>
                 <th field="schoolCode" width="30">學校代碼</th>
                 <th field="schoolName" width="70">學校</th>
                 <th field="collegeName" width="70">學院</th>
@@ -33,6 +32,7 @@
           
             <input id="token" type="hidden" name="_token" value="{{ csrf_token() }}">
             <input id="crud" type="hidden" name="crud">
+            <input type="hidden" name="schoolId" value="">
             <h3>學校資訊</h3>
             <div style="margin-bottom:10px">
                 <input name="isPrivate" class="easyui-textbox" required="true" label="公立/私立:" style="width:100%" >
@@ -41,20 +41,24 @@
                 <input name="schoolCode" class="easyui-textbox" required="true" label="學校代碼:" style="width:100%" >
             </div>
             <div style="margin-bottom:10px">
-                <input name="schoolName" class="easyui-textbox" required="true" label="學校:" style="width:100%" >
+                <input id="nn" name="schoolName" class="easyui-textbox" required="true" label="學校:" style="width:100%" >
             </div>
             <div style="margin-bottom:10px">
-                <input name="collegeName" class="easyui-textbox" required="true" label="學院:" style="width:100%" >
+                <input id="nc" name="collegeName" class="easyui-textbox" required="true" label="學院:" style="width:100%" >
             </div>
             <div style="margin-bottom:10px">
-                <input name="departmentName" class="easyui-textbox" required="true" label="系所:" style="width:100%">
+                <input id="od" name="departmentName" class="easyui-textbox" required="true" label="系所:" style="width:100%" value>
             </div>
             <div style="margin-bottom:10px">
                 <input name="educationSystemName" class="easyui-textbox" required="true" label="學制:" style="width:100%" >
             </div>
+             <input id="ppd" name="old_departmentName" type="hidden">
+             <input id="osn" name="old_schoolName" type="hidden">
+             <input id="ocn" name="old_collegeName" type="hidden">
+          
             <div id="dlg-buttons" class="row">
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-primary btn-block" onclick="saveUser()">
+                    <button type="submit" class="btn btn-primary btn-block">
                     修改
                     </button>
                 </div>
@@ -90,9 +94,15 @@
                 $('#dlg').dialog('open').dialog('center').dialog('setTitle','Edit School');
                 $('#fm').form('load',row);
                 url = '{{ action('SchoolController@save')}}';
-             document.getElementById('crud').value='edit';
-                
+                document.getElementById('crud').value='edit';
             }
+             var dp = document.getElementById('od').value;
+                    document.getElementById('ppd').value=dp;
+             var sn = document.getElementById('nn').value;
+                    document.getElementById('osn').value=sn;
+             var cn = document.getElementById('nc').value;
+                    document.getElementById('ocn').value=cn;
+
         }
         function saveUser(){
             $('#fm').form('submit',{

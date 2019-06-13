@@ -24,8 +24,8 @@ class SchoolRepository
     {
         $result = DB::table('department')
                   ->join('school','department.schoolId','=','school.schoolId','left outer')
-                  ->join('college','department.collegeId','=','college.collegeId','left outer')
                   ->join('education_system','department.educationSystemId','=','education_system.educationSystemId','left outer')
+                  ->join('college','department.collegeId','=','college.collegeId','left outer')
                   ->get();
         return $result;
     }
@@ -34,6 +34,7 @@ class SchoolRepository
     public function save_school($data)
     {   
         $schoolName = $data['schoolName'];
+
         $Private = $data['isPrivate'];
         if ($Private=='公立'){
             $isPrivate='0';
@@ -48,10 +49,9 @@ class SchoolRepository
         //判斷有沒有school
         
         $isSchool = DB::table('school')->where('schoolName',$schoolName)->get();
-        if ($isSchool == '[]'){
+        if ($isSchool == '[]'){  
             DB::table('school')->insert(
-                ['schoolName' => $schoolName,'isPrivate'=>$isPrivate,'schoolCode'=>$schoolCode]
-            );
+                ['schoolName'=>$schoolName,'isPrivate'=>$isPrivate,'schoolCode'=>$schoolCode]);
             $schoolid = DB::table('school')->where('schoolName',$schoolName)->pluck('schoolId');
         }else{
             $schoolid = DB::table('school')->where('schoolName',$schoolName)->pluck('schoolId');
@@ -61,7 +61,7 @@ class SchoolRepository
         //判斷有沒有college
         
         $isCollege = DB::table('college')->where('collegeName',$collegeName)->where('schoolId',$schoolid)->get();
-        if ($isCollege->isEmpty()){ 
+        if ($isCollege== '[]'){ 
             DB::table('college')->insert(
                 ['collegeName' => $collegeName,'schoolId' => substr($schoolid,1,1)]
             );
@@ -94,7 +94,7 @@ class SchoolRepository
             );
             return Redirect::back()->withErrors(['新增成功', '該筆資料已存在']);
         }else{
-            return Redirect::back()->withErrors(['新增失敗', '成功新增']);;
+            return Redirect::back()->withErrors(['新增失敗','該筆資料已存在']);;
         }
 
         
@@ -105,6 +105,7 @@ class SchoolRepository
     public function update_school($data)
     {
         $schoolName = $data['schoolName'];
+        $old_schoolName = $data['old_schoolName'];
         $isPrivate = $data['isPrivate'];
         if ($isPrivate=='公立'){
             $isPrivate='0';
@@ -113,62 +114,69 @@ class SchoolRepository
         }
         $schoolCode = $data['schoolCode'];
         $collegeName = $data['collegeName'];
+        $old_collegeName = $data['old_collegeName'];
         $departmentName = $data['departmentName'];
+        $old_departmentName = $data['old_departmentName'];
         $educationSystemName = $data['educationSystemName'];
+        $old_schoolid = $data['schoolId'];
 
-        //判斷有沒有school
-        $isSchool = DB::table('school')->where('schoolName',$schoolName)->get();
-        if ($isSchool == '[]'){
-            DB::table('school')->insert(
-                ['schoolName' => $schoolName,'isPrivate'=>$isPrivate,'schoolCode'=>$schoolCode]
-            );
-            $schoolid = DB::table('school')->where('schoolName',$schoolName)->pluck('schoolId');
-        }else{
-            DB::table('school')->where('schoolName',$schoolName)->update(
-                ['schoolName' => $schoolName,'isPrivate'=>$isPrivate,'schoolCode'=>$schoolCode]
-            );
-            $schoolid = DB::table('school')->where('schoolName',$schoolName)->pluck('schoolId');
-        }
-        
-        //判斷有沒有college
-        $isCollege = DB::table('college')->where('collegeName',$collegeName)->where('schoolId',$schoolid)->get();
-        if ($isCollege->isEmpty()){ 
-            DB::table('college')->insert(
-                ['collegeName' => $collegeName,'schoolId' => substr($schoolid,1,1)]
-            );
-            $collegeid = DB::table('college')->where('schoolId',$schoolid)->pluck('collegeId');
-        }else{
-            DB::table('college')->where('collegeName',$collegeName)->where('schoolId',$schoolid)->update(
-                ['collegeName' => $collegeName,'schoolId' => substr($schoolid,1,1)]
-            );
-            $collegeid = DB::table('college')->where('schoolId',$schoolid)->where('collegeName',$collegeName)->pluck('collegeId');
-        }
-        
-        //判斷有沒有education_system
+        $old_schoolid = DB::table('school')->where('schoolName',$old_schoolName)->pluck('schoolId');
+        $collegeId = DB::table('college')->where('schoolId',$old_schoolid)->where('collegeName',$old_collegeName)->pluck('collegeId');
+       
         $isEducation = DB::table('education_system')->where('educationSystemName',$educationSystemName)->get();
         if ($isEducation == '[]'){
             DB::table('education_system')->insert(
                 ['educationSystemName' => $educationSystemName]
             );
-            $educationid = DB::table('education_system')->where('educationSystemName',$educationSystemName)->pluck('educationSystemId');
+            $departmentid = DB::table('department')
+                            ->where('departmentName',$old_departmentName)
+                            ->where('collegeId',substr($collegeId,1,1))
+                            ->where('schoolId',substr($old_schoolid,1,1))
+                            ->pluck('departmentId');
+
         }else{
-            $educationid = DB::table('education_system')->where('educationSystemName',$educationSystemName)->pluck('educationSystemId');
+             $departmentid = DB::table('department')->where('departmentName',$old_departmentName)
+                        ->where('collegeId',substr($collegeId,1,1))
+                        ->where('schoolId',substr($old_schoolid,1,1))
+                        ->pluck('departmentId');
         }
-        
-        //判斷department是否已存在
-        $isDepartment = DB::table('department')->where('departmentName',$departmentName)->where('collegeId',substr($collegeid,1,1))
-                        ->where('schoolId',$schoolid)->where('educationSystemId',$educationid)->get();
-        if ($isDepartment == '[]'){
-            DB::table('department')->insert(
-                ['departmentName' => $departmentName,'schoolId' => substr($schoolid,1,1),'collegeId' => substr($collegeid,1,1),'educationSystemId' => substr($educationid,1,1)]
-            );
-            return Redirect::back()->withErrors(['編輯成功', '該筆資料已編輯']);
+         //return $collegeId.' / '.$old_schoolid.' / '.$old_departmentName.' / '.$departmentid;
+         $educationid = DB::table('education_system')->where('educationSystemName',$educationSystemName)->pluck('educationSystemId');
+
+
+
+    //校名
+        $isSchool = DB::table('school')->where('schoolName',$schoolName)->get();
+       if ($isSchool == '[]'){  
+            DB::table('school')->insert(
+                ['schoolName'=>$schoolName,'isPrivate'=>$isPrivate,'schoolCode'=>$schoolCode]);
+            $schoolid = DB::table('school')->where('schoolName',$schoolName)->pluck('schoolId');
         }else{
-            DB::table('department')->update(
-                ['departmentName' => $departmentName,'schoolId' => substr($schoolid,1,1),'collegeId' => substr($collegeid,1,1),'educationSystemId' => substr($educationid,1,1)]
-            );
-            return Redirect::back()->withErrors(['編輯失敗', '該筆資料已存在']);;
+            $schoolid = DB::table('school')->where('schoolName',$schoolName)->pluck('schoolId');
         }
+
+     //學院
+        $isCollege = DB::table('college')->where('collegeName',$collegeName)->where('schoolId',$schoolid)->get();
+        if ($isCollege== '[]'){ 
+            DB::table('college')->insert(
+                ['collegeName'=>$collegeName,'schoolId'=>substr($schoolid,1,1)]
+            );
+            $collegeid = DB::table('college')->where('schoolId',substr($schoolid,1,1))->where('collegeName',$collegeName)->pluck('collegeId');
+        }else{
+            $collegeid = DB::table('college')->where('schoolId',substr($schoolid,1,1))->where('collegeName',$collegeName)->pluck('collegeId');
+
+        }
+        DB::table('department')
+                ->where('departmentId',substr($departmentid,1,1))
+                ->update(['collegeId'=> substr($collegeid,1,1),'schoolId'=>substr($schoolid,1,1)]);
+   
+
+        //編輯學制從現有學制中挑出新學制的ID(若無則新增)，編輯department表中的educationSystemId，學制表本身不動
+        DB::table('department')
+            ->where('departmentId',$departmentid)
+            ->update(['departmentName' => $departmentName,'educationSystemId'=>substr($educationid,1,1)]);
+
+        return Redirect::back()->withErrors(['編輯成功', '該筆資料已編輯']);
     }
 
 
