@@ -1,6 +1,9 @@
 @extends('layouts.master')
 @section('title','後台管理 學校')
 
+@section('school_active','active')
+
+
 @section('content')
     @if($errors->any())
         <h4>{{$errors->first()}}</h4>
@@ -62,11 +65,6 @@
                     修改
                     </button>
                 </div>
-                <!-- <div class="col-md-6">
-                    <a href="{{ url('/btschool') }}" class="btn btn-danger btn-block">
-                    返回
-                    </a>
-                </div> -->
             </div>
         </form>
     </div>
@@ -84,7 +82,6 @@
         var url;
         function newUser(){
             $('#dlg').dialog('open').dialog('center').dialog('setTitle','New School');
-            url = '{{ action('SchoolController@save')}}';
              document.getElementById('crud').value='insert';
 
         }
@@ -93,7 +90,6 @@
             if (row){
                 $('#dlg').dialog('open').dialog('center').dialog('setTitle','Edit School');
                 $('#fm').form('load',row);
-                url = '{{ action('SchoolController@save')}}';
                 document.getElementById('crud').value='edit';
             }
              var dp = document.getElementById('od').value;

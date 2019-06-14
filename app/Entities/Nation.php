@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use App\Entities\Scholarship as ScholarshipEloquent;
 
 
-class Discipline extends Model
+class Nation extends Model
 {
-    protected $table = 'discipline';
+    protected $table = 'nation';
 
 	public function scholarship(){
         return $this->belongsTo(ScholarshipEloquent::class); 

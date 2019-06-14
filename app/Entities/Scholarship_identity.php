@@ -4,12 +4,12 @@ namespace App\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Entities\Scholarship as ScholarshipEloquent;
+    use App\Entities\Scholarship as ScholarshipEloquent;
 
 
-class Discipline extends Model
+class Scholarship_identity extends Model
 {
-    protected $table = 'discipline';
+    protected $table = 'scholarship_identity';
 
 	public function scholarship(){
         return $this->belongsTo(ScholarshipEloquent::class); 

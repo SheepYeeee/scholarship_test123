@@ -5,11 +5,11 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="{{ action('SchoolController@schools') }}">學校</a>
+      <li class="nav-item @yield('school_active')">
+        <a class="nav-link" href="{{ action('SchoolController@getIndex') }}">學校</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">獎學金</a>
+      <li class="nav-item @yield('scholarship_active')">
+        <a class="nav-link" href="{{ action('ScholarshipController@getIndex') }}">獎學金</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">我不知道</a>

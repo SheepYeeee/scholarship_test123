@@ -17,8 +17,16 @@ Route::get('/', function () {
 
 //後台 學校
 Route::get('btschool','SchoolController@getIndex'); //到後台->學校
-Route::get('school','SchoolController@schools'); //所有學校
 Route::post('btschool','SchoolController@save');
+
+Route::get('school','SchoolController@schools'); //所有學校
+
+Route::get('btscholarship','ScholarshipController@getIndex');
+Route::get('scholarship','ScholarshipController@scholarship');
+
+Route::post('btscholarship','ScholarshipController@save');
+
+
 
 // Route::post('btschool','SchoolController@edit'); //編輯學校訊息
 // Route::post('btschool','SchoolController@add'); //新增學校
