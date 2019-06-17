@@ -26,6 +26,9 @@ Route::get('scholarship','ScholarshipController@scholarship');
 
 Route::post('btscholarship','ScholarshipController@save');
 
+Route::get('index','IndexController@getIndex');//前台 首頁
+Route::get('search','SearchController@getIndex');//前台 首頁
+
 
 
 // Route::post('btschool','SchoolController@edit'); //編輯學校訊息
