@@ -34,7 +34,7 @@
 
 
                             <!--  表單  -->
-                            <form role="form" class="scholarship-search-form" method="post" action="file:///D:/%E5%91%B5%E5%91%B5%E5%85%86%E8%BF%AA/%E5%B0%88%E6%A1%88%E5%94%B7/searchResultPage.html">
+                            <form role="form" class="scholarship-search-form" method="post" action="#">
 
                                 <!--  sub表單1 begin  -->
                                 <div id="form1">

@@ -30,9 +30,15 @@ class SchoolRepository
         return $result;
     }
 
+
+
     //新增
     public function save_school($data)
     {   
+        function set_str($string)
+            {
+                return str_replace(["[","]"],["",""],$string);
+            }
         $schoolName = $data['schoolName'];
 
         $Private = $data['isPrivate'];
@@ -63,7 +69,7 @@ class SchoolRepository
         $isCollege = DB::table('college')->where('collegeName',$collegeName)->where('schoolId',$schoolid)->get();
         if ($isCollege== '[]'){ 
             DB::table('college')->insert(
-                ['collegeName' => $collegeName,'schoolId' => substr($schoolid,1,1)]
+                ['collegeName' => $collegeName,'schoolId' =>set_str($schoolid)]
             );
             $collegeid = DB::table('college')->where('schoolId',$schoolid)->pluck('collegeId');
         }else{
@@ -86,11 +92,11 @@ class SchoolRepository
         
 
         //判斷department是否已存在
-        $isDepartment = DB::table('department')->where('departmentName',$departmentName)->where('collegeId',substr($collegeid,1,1))
+        $isDepartment = DB::table('department')->where('departmentName',$departmentName)->where('collegeId',set_str($collegeid))
                         ->where('schoolId',$schoolid)->where('educationSystemId',$educationid)->get();
         if ($isDepartment == '[]'){
             DB::table('department')->insert(
-                ['departmentName' => $departmentName,'schoolId' => substr($schoolid,1,1),'collegeId' => substr($collegeid,1,1),'educationSystemId' => substr($educationid,1,1)]
+                ['departmentName' => $departmentName,'schoolId' => set_str($schoolid),'collegeId' => set_str($collegeid),'educationSystemId' => set_str($educationid)]
             );
             return Redirect::back()->withErrors(['新增成功', '該筆資料已存在']);
         }else{
@@ -104,6 +110,11 @@ class SchoolRepository
     //編輯
     public function update_school($data)
     {
+             function set_str($string)
+            {
+                return str_replace(["[","]"],["",""],$string);
+            }
+
         $schoolName = $data['schoolName'];
         $old_schoolName = $data['old_schoolName'];
         $isPrivate = $data['isPrivate'];
@@ -130,14 +141,14 @@ class SchoolRepository
             );
             $departmentid = DB::table('department')
                             ->where('departmentName',$old_departmentName)
-                            ->where('collegeId',substr($collegeId,1,1))
-                            ->where('schoolId',substr($old_schoolid,1,1))
+                            ->where('collegeId',set_str($collegeId))
+                            ->where('schoolId',set_str($old_schoolid))
                             ->pluck('departmentId');
 
         }else{
              $departmentid = DB::table('department')->where('departmentName',$old_departmentName)
-                        ->where('collegeId',substr($collegeId,1,1))
-                        ->where('schoolId',substr($old_schoolid,1,1))
+                        ->where('collegeId',set_str($collegeId))
+                        ->where('schoolId',set_str($old_schoolid))
                         ->pluck('departmentId');
         }
          //return $collegeId.' / '.$old_schoolid.' / '.$old_departmentName.' / '.$departmentid;
@@ -154,31 +165,32 @@ class SchoolRepository
             }else{
                 $schoolid = DB::table('school')->where('schoolName',$schoolName)->pluck('schoolId');
             }
+       
 
          //學院
             $isCollege = DB::table('college')->where('collegeName',$collegeName)->where('schoolId',$schoolid)->get();
             if ($isCollege== '[]'){ 
                 DB::table('college')->insert(
-                    ['collegeName'=>$collegeName,'schoolId'=>substr($schoolid,1,1)]
+                    ['collegeName'=>$collegeName,'schoolId'=>set_str($schoolid)]
                 );
-                $collegeid = DB::table('college')->where('schoolId',substr($schoolid,1,1))->where('collegeName',$collegeName)->pluck('collegeId');
+                $collegeid = DB::table('college')->where('schoolId',set_str($schoolid))->where('collegeName',$collegeName)->pluck('collegeId');
             }else{
-                $collegeid = DB::table('college')->where('schoolId',substr($schoolid,1,1))->where('collegeName',$collegeName)->pluck('collegeId');
+                $collegeid = DB::table('college')->where('schoolId',set_str($schoolid))->where('collegeName',$collegeName)->pluck('collegeId');
 
             }
+          
+
             DB::table('department')
-                    ->where('departmentId',substr($departmentid,1,1))
-                    ->update(['collegeId'=> substr($collegeid,1,1),'schoolId'=>substr($schoolid,1,1)]);
-       
+                    ->where('departmentId',set_str($departmentid))
+                    ->update(['collegeId'=> set_str($collegeid),'schoolId'=>set_str($schoolid)]);
 
             //編輯學制從現有學制中挑出新學制的ID(若無則新增)，編輯department表中的educationSystemId，學制表本身不動
             DB::table('department')
                 ->where('departmentId',$departmentid)
-                ->update(['departmentName' => $departmentName,'educationSystemId'=>substr($educationid,1,1)]);
+                ->update(['departmentName' => $departmentName,'educationSystemId'=>set_str($educationid)]);
 
             return Redirect::back()->withErrors(['編輯成功', '該筆資料已編輯']);
     }
-
-
+    
 
 }
