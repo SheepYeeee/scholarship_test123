@@ -71,7 +71,7 @@ class SchoolRepository
             DB::table('college')->insert(
                 ['collegeName' => $collegeName,'schoolId' =>set_str($schoolid)]
             );
-            $collegeid = DB::table('college')->where('schoolId',$schoolid)->pluck('collegeId');
+            $collegeid = DB::table('college')->where('schoolId',$schoolid)->where('collegeName',$collegeName)->pluck('collegeId');
         }else{
             $collegeid = DB::table('college')->where('schoolId',$schoolid)->where('collegeName',$collegeName)->pluck('collegeId');
         }
