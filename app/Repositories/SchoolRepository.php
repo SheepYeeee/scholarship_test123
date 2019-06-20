@@ -26,6 +26,7 @@ class SchoolRepository
                   ->join('school','department.schoolId','=','school.schoolId','left outer')
                   ->join('education_system','department.educationSystemId','=','education_system.educationSystemId','left outer')
                   ->join('college','department.collegeId','=','college.collegeId','left outer')
+                  ->orderBy('department.schoolId','asc')
                   ->get();
         return $result;
     }
